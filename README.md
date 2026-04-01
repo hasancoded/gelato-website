@@ -158,8 +158,8 @@ The design system is defined in `app/globals.css` using CSS custom properties. A
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-org/gelato-website.git
-   cd gelato-website
+    git clone https://github.com/hasancoded/gelato-website.git
+    cd gelato-website
    ```
 
 2. Install dependencies:
@@ -222,6 +222,32 @@ The site implements a comprehensive SEO strategy:
 ## Deployment
 
 The site is deployed on Vercel. Push to the main branch to trigger an automatic production deployment. Environment variables must be configured in the Vercel project dashboard.
+
+### Docker (Self-Hosted)
+
+A production-ready multi-stage Dockerfile and `docker-compose.yml` are included for self-hosted deployments.
+
+1. Copy the environment template and configure it:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Build and start the container:
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+3. Verify the container is healthy:
+
+   ```bash
+   docker compose ps
+   ```
+
+   The site will be available at `http://localhost:3000`.
+
+The Docker configuration includes health checks, resource limits, non-root execution, read-only filesystem, and structured logging.
 
 ---
 
