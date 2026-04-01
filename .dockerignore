@@ -1,0 +1,44 @@
+# ==============================================================================
+# .dockerignore — Miles Ice Tech
+# Keep the build context minimal for fast, cache-friendly image builds.
+# ==============================================================================
+
+# Dependencies (re-installed during build)
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output (rebuilt during build)
+.next
+out
+build
+
+# Version control
+.git
+.gitignore
+
+# IDE / Editor
+.vscode
+.idea
+*.swp
+*.swo
+
+# Environment files (secrets must never be baked into images)
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker (avoid recursive context)
+Dockerfile
+docker-compose.yml
+docker-compose*.yml
+.dockerignore
+
+# Documentation and config not needed at runtime
+README.md
+LICENSE
+*.md

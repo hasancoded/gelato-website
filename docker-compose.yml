@@ -1,0 +1,63 @@
+# =============================================================================
+# Miles Ice Tech — Docker Compose (Production)
+# Optimized for Dual Xeon Gold R740 / Proxmox / ZFS ARC
+# =============================================================================
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: miles-ice-tech-web
+    restart: unless-stopped
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      # --- Runtime ---
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: "1"
+      HOSTNAME: "0.0.0.0"
+      PORT: "3000"
+
+      # --- Internal R740 Backplane Services ---
+      N8N_URL: "http://192.168.10.125:5678"
+      OLLAMA_URL: "http://192.168.10.140:11434"
+
+      # --- Application Secrets (override via .env or host env) ---
+      N8N_WEBHOOK_URL: "${N8N_WEBHOOK_URL:-http://192.168.10.125:5678/webhook/gelato-chat}"
+      CRM_FORM_TOKEN: "${CRM_FORM_TOKEN:-}"
+
+    # --- Health Check ---
+    # Polls every 30s, allows 5s per probe, and tolerates 3 consecutive failures
+    # before marking the container as unhealthy.
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+    # --- Resource Governance (tuned for 200 concurrent users) ---
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"
+          memory: 1024M
+        reservations:
+          cpus: "1.0"
+          memory: 256M
+
+    # --- Security ---
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:size=64M
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
