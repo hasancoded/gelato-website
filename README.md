@@ -1,4 +1,6 @@
-# Miles Ice Tech -- Official Website
+# Miles Ice Tech
+
+**Commercial Gelato Machines | Churning Display Freezers**
 
 The official website for **Miles Ice Tech** (Hangzhou Gelato Tech Co., Ltd.), the world's largest manufacturer of commercial churning display freezers. This site showcases the Galaxy Pro product line, company services, and provides lead generation through integrated contact forms and an AI-powered chatbot.
 
